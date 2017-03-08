@@ -1,5 +1,6 @@
-[![Build Status](http://api.screwdriver.corp.yahoo.com:4080/badge/78468/component/icon)](http://api.screwdriver.corp.yahoo.com:4080/badge/78468/component/target)
-[![Build Status](http://api.screwdriver.corp.yahoo.com:4080/badge/78468/release/icon)](http://api.screwdriver.corp.yahoo.com:4080/badge/78468/release/target)
+[![Build Status](https://travis-ci.org/yahoo/viper.svg?branch=master)](https://travis-ci.org/yahoo/viper) [![Coverage Status](https://coveralls.io/repos/github/yahoo/viper/badge.svg?branch=master)](https://coveralls.io/github/yahoo/viper?branch=master) [![Download](https://api.bintray.com/packages/yahoo/maven/viper/images/download.svg) ](https://bintray.com/yahoo/maven/viper/_latestVersion)
+
+# Viper
 
 Viper is a utility that returns a live host from a list of host names.
 Viper will continuously monitor each host name and report when any hosts become unresponsive.
