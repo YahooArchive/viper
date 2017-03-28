@@ -9,6 +9,8 @@ package com.yahoo.viper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.yahoo.viper.util.Utils;
+
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -27,7 +29,7 @@ public class HostMonitor {
     final private ExecutorService checkerPool;
 
     // This value is used to prevent false errors during the start up of this instance
-    final private long startTime = System.currentTimeMillis();
+    final private long startTime = Utils.getActualTime();
 
     // Used by other classes in this package
     final private List<HostInfo> hinfos;
@@ -73,7 +75,7 @@ public class HostMonitor {
         liveCount = 0;
 
         // Create the check tasks
-        long now = System.currentTimeMillis();
+        long now = Utils.getActualTime();
         for (HostInfo hi : hinfos) {
             hi.checkTask = new CheckTask(this, hi);
             hi.lastCheck = hi.lastLive = 0;
@@ -131,7 +133,7 @@ public class HostMonitor {
         HostInfo hi = null;
         // If no live hosts are found and this instance was just created, try again
         try {
-            while ((hi = liveHost2()) == null && System.currentTimeMillis() - startTime < 2 * checkPeriodMs) {
+            while ((hi = liveHost2()) == null && Utils.getActualTime() - startTime < 2 * checkPeriodMs) {
                 Thread.sleep(checkPeriodMs);
             }
         } catch (InterruptedException e) {
@@ -176,7 +178,7 @@ public class HostMonitor {
      * If one is determined to be hung, it is interrupted.
      */
     class BgThread extends Thread {
-        long now = System.currentTimeMillis();
+        long now = Utils.getActualTime();
         long lastInfo = now;
 
         public void run() {
@@ -188,7 +190,7 @@ public class HostMonitor {
             StringBuilder sb = new StringBuilder();
             while (runBgThread) {
                 try {
-                    long now = System.currentTimeMillis();
+                    long now = Utils.getActualTime();
                     int lives = 0;
 
                     // Start another round of checks and tally the live hosts
@@ -217,7 +219,7 @@ public class HostMonitor {
                     // Update instance values
                     liveCount = lives;
 
-                    now = System.currentTimeMillis();
+                    now = Utils.getActualTime();
                     if (lives != lastLives || lastNumListeners != listeners.size() || now - lastInfo > 60000) {
                         HostMonitorEvent event = new HostMonitorEvent();
                         event.numLiveHosts = lives;

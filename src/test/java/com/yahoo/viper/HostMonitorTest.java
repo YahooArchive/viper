@@ -7,6 +7,8 @@
 package com.yahoo.viper;
 
 import com.yahoo.viper.cli.MockServer;
+import com.yahoo.viper.util.Utils;
+
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
@@ -68,9 +70,9 @@ public class HostMonitorTest {
         }
 
         // Wait until all three servers are live. Up to 5 seconds.
-        long start = System.currentTimeMillis();
+        long start = Utils.getActualTime();
         int count = 0;
-        while (count < liveCount && System.currentTimeMillis() - start < 10 * checkPeriodMs) {
+        while (count < liveCount && Utils.getActualTime() - start < 10 * checkPeriodMs) {
             count = 0;
             for (HostInfo hi : hinfos) {
                 if (hi.isLive()) {
