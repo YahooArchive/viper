@@ -9,6 +9,8 @@ package com.yahoo.viper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.yahoo.viper.util.Utils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -88,7 +90,7 @@ public class CheckTask implements Runnable {
         HttpURLConnection http = null;
         try {
             // Start checking
-            hinfo.lastCheck = System.currentTimeMillis();
+            hinfo.lastCheck = Utils.getActualTime();
 
             if (hinfo.url == null) {
                 // Check host and port
@@ -108,7 +110,7 @@ public class CheckTask implements Runnable {
             }
 
             // Success
-            hinfo.lastLive = System.currentTimeMillis();
+            hinfo.lastLive = Utils.getActualTime();
             if (!hinfo.live) {
                 hinfo.logger.info(String.format("[%s] %s is now live", monitor.name,
                         hinfo.url == null ? hinfo.socketAddress : hinfo.url));

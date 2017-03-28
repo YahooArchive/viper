@@ -9,6 +9,8 @@ package com.yahoo.viper;
 import java.net.*;
 import java.security.InvalidParameterException;
 
+import com.yahoo.viper.util.Utils;
+
 /**
  * This class holds information about each registered host.
  */
@@ -77,7 +79,7 @@ public class HostInfo {
      */
     public boolean isLive() {
         if (live && checkTask.isChecking()) {
-            long time = System.currentTimeMillis() - lastLive();
+            long time = Utils.getActualTime() - lastLive();
             // The threshold is increased by one check period to allow time for the check itself
             if (time > (checkTask.monitor.retries + 2) * checkTask.monitor.checkPeriodMs) {
                 live = false;
@@ -95,7 +97,7 @@ public class HostInfo {
      * @return true if the host is hung.
      */
     public boolean isHung() {
-        return System.currentTimeMillis() - lastCheck() > (checkTask.monitor.retries + 2) * checkTask.monitor.checkPeriodMs;
+        return Utils.getActualTime() - lastCheck() > (checkTask.monitor.retries + 2) * checkTask.monitor.checkPeriodMs;
     }
 
     /**
@@ -140,7 +142,7 @@ public class HostInfo {
     public String toString() {
         return String.format("HostInfo[%s, live=%b, lastLive=%dms, lastCheck=%dms]",
                 url == null ? socketAddress : url, isLive(),
-                lastLive == 0 ? 0 : lastLive - System.currentTimeMillis(),
-                lastCheck - System.currentTimeMillis());
+                lastLive == 0 ? 0 : lastLive - Utils.getActualTime(),
+                lastCheck - Utils.getActualTime());
     }
 }
