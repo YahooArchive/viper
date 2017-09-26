@@ -114,6 +114,8 @@ public class HostMonitor {
     /**
      * Releases all resources used by this object. The object is no longer usable after this call.
      * This call may block up to twice the check period as specified in the constructor.
+     *
+     * @throws InterruptedException {@link InterruptedException}
      */
     public void close() throws InterruptedException {
         runBgThread = false;

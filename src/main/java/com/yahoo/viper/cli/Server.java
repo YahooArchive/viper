@@ -20,7 +20,7 @@ public class Server {
      * The main entry point for the server command line tool.
      *
      * @param args non-null array of arguments passed to the tool
-     * @throws InterruptedException
+     * @throws InterruptedException {@link InterruptedException}
      */
     public static void main(String[] args) throws InterruptedException {
         Map<Integer, MockServer> servers = new HashMap<>();

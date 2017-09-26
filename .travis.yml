@@ -4,18 +4,26 @@ jdk:
 - oraclejdk8
 
 after_success:
-- mvn -B coveralls:report
+- ./gradlew jacocoTestReport coveralls
 
 script:
 - git config --global user.email "builds@travis-ci.com"
 - git config --global user.name "Travis CI"
-- test "${TRAVIS_PULL_REQUEST}" == "true" || test "${TRAVIS_BRANCH}" != "master" || mvn -B clean release:prepare release:perform --settings conf/travis_settings.xml
+- ./gradlew clean check
+- if [ "${TRAVIS_PULL_REQUEST}" = "false" ];then git checkout master;git remote set-url origin "https://$GITHUB_KEY@github.com/yahoo/viper";fi
+- test "${TRAVIS_PULL_REQUEST}" != "false" || test "${TRAVIS_BRANCH}" != "master" || ./gradlew clean release
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
 
 cache:
   directories:
-  - ~/.m2
+  - ~/.gradle
 
 env:
   global:
   - secure: hgwckZqnDFNPAPoXNYUD+kysojOl3eI8sMrWbG5q1ztDhePtdN+dTlwWhQcUMBw0Z65P7HQrRDkbKx2n8OC2wVMTyalwUn4o/xZS/ZAEpj5UycDdifTPDE/5pBH5YmXEJioZ13lr9JZdyI83EPeTj5d2flC29ToJNgJMVTPRg22x9Ss6W3IBAZsKzGM4AsHwZ1voAiUziYqnp/8SM2Gm2o/rcFZWzINFhONcJurT6eMKs4SuIPOUH/z4Zia4g9hV9NIC64rmZCbbMH1YhKcbiWb7R8ulc/YVfGuItobxdsocb/f/FUzENgYmFbkLof4IAhZxpu1EzijUqQRZfO2O0umc99xQPmqYaEVOGJ5asBJgwvDzcDULn0twvYtNeX7DadB72cJCJPjxgqdYTs/5kPZFJ9hh98J9H/5aeq0eaXkaUv4PnmFwaN1SYx0j8dn2/nNqyiXN4f6aniAH/CjJwLVCkQSLQbzExiV8RVxVvAv5UV4S6MYEdCqMcrqlZlKBvL8/4EUTQ88yoXD6kwns/FgjPInu07gYEfyiuDwFOCYCZ13U8jKfhcZc73Lx/Gc9+GajATDAN+hrN78d0QyoR032rgSa20a0lAtIr+dDX39dBhz9teoWJCJdRo6IJjQ91RF8igyBaBcbfh5BpeLO8iirmybX6Zo8Zywdcc1Tk4M=
   - secure: f5i+x4rtQBMEEGKVcVIs1wfUXy1sGHFyHJPk7BWKro1x72pLvq3zVpG2AMLJlN6mFSKTDU2Gka9jzC5wb19Wq3NoTyReHwVTquHMxKFaNTMn1DflZowbvaRt3OMY/TIZamREQ5rxWPg9gN6OkF5wS2HSb6ym8pV/hn6DfRnc+qebj5lUy8cSQmwaFHTceVm0ZjI8SiK6WNerEp8ArAVkQTacvq6CLS57INmVPShqyRVrquqv/wj0X0bl0Uit6H5/O+3ZXbTCtn3aIg0YmQAde+llH68vtznwM7cp2VU+R5g8mITo2pqQ6nMBUrBpV1u8Pa0rrw0JEHlnPMd0bzj44JswLpXl/RsmdlU5CZHk8lO6gxZRB/zmqSGfNu/oJKY0a/lp3xIA0KJZ8rWCsMVVh4yAqlZUeikM1S2jWhdt9I+VA2RtctiD2BH8pkpTKPE6S+p2/f0PF9hAzKz5nOy962DuWlYtwuLtcEWRo08idNErRluN/MjuYD0jxXG91TJZK3lOautyyA/XnX2omXwLpxX8BqjJkVati1MMyWx8azccz9ue7WojoBqZ6OXATgRJDOO9iWgjdtJ4HC+QpO4a89B+dirj7WVvy6USP081Uq54QG/S89oSqW6kYMOHeSO/ix9FzboKcn23CHtQWJGZ4uwlS812NHM0Lz3sfsnk8Cw=
+  - secure: +AsB6mZj1nMxS7cKazfRA23cU53dwTqvU5IcjZWZQhP9ReW4fPQCEy9+1eo+HN4z05wwOFu6F4WSq+jyJuL3G2MTCl45iMpo4m0XqIqarcg1fro/EhoJNWlluMdslNgiB8Khi4GhoBnLBj6obZy/1fCZGo0Pq6QsSz3zuiBH8zhM3s/6pCmLTfSwTinLABrVwrjDp/Xgo4iUkMvdanazM2QdsWHTyZ6iPYeDWfyFaL7u6AYCubwhGVeYVQLG3h76QXNCalEoY4Szgn0AB0ELCUqpt1IWu153l4aDbUujpoaqfCk0UUkh4rSQgLKzsC3J1GEsC1bumDTqvvuK9KEicrzBDmmo+dDywA4XuWoEJLh0NXPZbIrKBJ0T0kpzid54pUMpi1r7Yh2zWlcjYPyCBIoIEj6u1jYENZDqyVJjtuWa0/wDuTtPDhHGcL5g/6l1dAzEKI748IJdLZ3aUeLsD3EDc2IUamVPeukuFZM4Bw0nBCg8BuSMxLQ1LDywGtbVG8EzVbBFwb0EoDe/drJq85Bu1ja+OE9vfCS7ByZ4sOj1Y6RZvBf/3GPfybIR17rUxi8TUcDzxLzmJEreMe7BunRrpwJkRT8T51j7r9xPgD21idw0Kb9IIQlefBBT+QsB4cEi3Lm9Yr4PBRjiIMTrlxx52bgD0qWidgeaVB9tNX8=
+
+

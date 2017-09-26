@@ -25,7 +25,7 @@ public class Monitor {
      * The main entry point for the monitor command line tool.
      *
      * @param args non-null array of arguments passed to the tool.
-     * @throws Exception
+     * @throws Exception {@link Exception}
      */
     public static void main(String[] args) throws Exception {
         if (args.length == 0) {

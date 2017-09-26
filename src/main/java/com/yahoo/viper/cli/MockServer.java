@@ -67,7 +67,7 @@ public class MockServer extends Thread {
     /**
      * Interrupts the thread and waits until the thread has restarted with the new mode.
      *
-     * @param mode
+     * @param mode server mode
      */
     public void setMode(Mode mode) {
         this.mode = mode;
