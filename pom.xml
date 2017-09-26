@@ -4,7 +4,7 @@
 
     <groupId>com.yahoo.viper</groupId>
     <artifactId>viper</artifactId>
-    <version>1.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <description>Java library that monitors a list of hostnames and notifies availability changes</description>
     <packaging>jar</packaging>
 

@@ -3,10 +3,13 @@ language: java
 jdk:
 - oraclejdk8
 
+after_success:
+- mvn -B coveralls:report
+
 script:
-- mvn verify
-- mvn coveralls:report
-- if [[ "${TRAVIS_PULL_REQUEST}" == "false" ]] && [[ "${TRAVIS_TAG}" != "" ]]; then mvn deploy --settings conf/travis_settings.xml; fi
+- git config --global user.email "builds@travis-ci.com"
+- git config --global user.name "Travis CI"
+- test "${TRAVIS_PULL_REQUEST}" == "true" || test "${TRAVIS_BRANCH}" != "master" || mvn -B clean release:prepare release:perform --settings conf/travis_settings.xml
 
 cache:
   directories:
