@@ -11,11 +11,13 @@ script:
 - test "${TRAVIS_PULL_REQUEST}" != "false" || test "${TRAVIS_BRANCH}" != "master" || ./gradlew clean release jacocoTestReport coveralls
 
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 
 cache:
   directories:
-  - ~/.gradle
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/wrapper/
 
 env:
   global:
