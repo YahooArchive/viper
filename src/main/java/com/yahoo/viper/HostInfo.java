@@ -47,6 +47,8 @@ public class HostInfo {
      * a status of 200 is returned.
      *
      * @param url a non-null URL to perform a check.
+     * @throws UnknownHostException hostname is unknown
+     * @throws MalformedURLException url is invalid
      */
     public HostInfo(String url) throws UnknownHostException, MalformedURLException {
         if (url == null) {
@@ -61,7 +63,9 @@ public class HostInfo {
      * Although a reader and writer are also created, no information will
      * be written or read.
      *
+     * @param name hostname
      * @param port The port to connect to.
+     * @throws UnknownHostException hostname is unknown
      */
     public HostInfo(String name, int port) throws UnknownHostException {
         this.name = name;

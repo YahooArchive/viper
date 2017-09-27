@@ -23,3 +23,6 @@ coverity
 .DS_Store
 .checkstyle
 src/main/docs/static_files/**
+build/
+.gradle/
+.gradletasknamecache

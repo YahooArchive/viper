@@ -78,7 +78,7 @@
             <property name="severity" value="error"/>
         </module>
         <module name="CyclomaticComplexity">
-            <metadata name="net.sf.eclipsecs.core.comment" value="Cyclomatic complexity limit of 11."/>
+            <metadata name="net.sf.eclipsecs.core.comment" value="Cyclomatic complexity limit of 20."/>
             <property name="severity" value="warning"/>
             <property name="max" value="20"/>
         </module>
