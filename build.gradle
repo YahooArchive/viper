@@ -33,6 +33,7 @@ dependencies {
 checkstyle {
     checkstyleTest.enabled = false
     configFile = file("${rootProject.rootDir}/conf/checkstyle.xml")
+    configProperties = [ "suppressionFile" : file("${rootProject.rootDir}/conf/checkstyle-suppressions.xml")]
 }
 
 jacocoTestReport {
